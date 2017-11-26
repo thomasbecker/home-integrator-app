@@ -1,0 +1,8 @@
+{
+  "name": "home-integrator-app",
+  "app_id": "ff8454e0",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
