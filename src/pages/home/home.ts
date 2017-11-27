@@ -48,7 +48,7 @@ export class HomePage {
       }],
     });
 
-    var consumptionSource = new EventSource("http://192.168.178.60:9000/streamMyHomeControlRealtimeData");
+    var consumptionSource = new EventSource("http://192.168.178.60:9000/myHomeControlRealtimeData");
     consumptionSource.addEventListener('message', function (event) {
       var data = JSON.parse(event.data);
       heatpumpConsumption = data.heatpumpPowerConsumption * 1000;
