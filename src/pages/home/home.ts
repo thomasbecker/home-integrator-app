@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import * as Highcharts from 'highcharts';
+import {DataProvider} from "../../app/dataProvider";
 
 
 @Component({
@@ -9,13 +10,11 @@ import * as Highcharts from 'highcharts';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private dataProvider: DataProvider) {
 
   }
 
   ionViewDidLoad() {
-    const EventSource: any = window['EventSource'];
-    var heatpumpConsumption
     var categories = ['Power Grid', 'House Consumption', 'Heatpump Consumption', 'PV Production'];
     var currentBarChart = Highcharts.chart('barchart', {
       chart: {
@@ -48,21 +47,16 @@ export class HomePage {
       }],
     });
 
-    var consumptionSource = new EventSource("http://192.168.178.60:9000/myHomeControlRealtimeData");
-    consumptionSource.addEventListener('message', function (event) {
+    this.dataProvider.dataSource.addEventListener('message', function (event) {
       var data = JSON.parse(event.data);
-      heatpumpConsumption = data.heatpumpPowerConsumption * 1000;
-    });
-
-    var powerFlowSource = new EventSource("http://192.168.178.60:9000/streamPowerFlowRealtimeData");
-    powerFlowSource.addEventListener('message', function (event) {
-      var data = JSON.parse(event.data);
-      var powerPv = data.powerPv == null ? 0 : data.powerPv;
-      var powerGrid = data.powerGrid == null ? 0 : data.powerGrid;
-      var powerLoad = data.powerLoad == null ? 0 : data.powerLoad;
-//                            powerGrid = powerGrid.toFixed(2)
+      // var date = data.timestamp * 1000;
+      var powerPv = data.powerFlowSite.powerPv == null ? 0 : data.powerFlowSite.powerPv;
+      var powerGrid = data.powerFlowSite.powerGrid == null ? 0 : data.powerFlowSite.powerGrid;
+      var powerLoad = data.powerFlowSite.powerLoad == null ? 0 : data.powerFlowSite.powerLoad;
+      // var selfConsumption = data.powerFlowSite.selfConsumption == null ? 0 : data.powerFlowSite.selfConsumption;
+      // var autonomy = data.powerFlowSite.autonomy == null ? 0 : data.powerFlowSite.autonomy;
       powerLoad = Math.abs(powerLoad.toFixed(2));
-      console.log(powerLoad + " grid: " + powerGrid);
+      var heatpumpConsumption = data.myHomeControlData.heatpumpPowerConsumption * 1000;
       currentBarChart.series[0].setData([powerGrid, powerLoad, heatpumpConsumption, powerPv])
     });
   }
