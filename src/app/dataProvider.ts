@@ -4,7 +4,7 @@ const EventSource: any = window['EventSource'];
 @Injectable()
 export class DataProvider {
 
-  private _dataSource = new EventSource("http://192.168.178.60:9000/homeData");
+  private _dataSource = new EventSource("http://192.168.178.52:9090/homeData");
 
   constructor() {
 
