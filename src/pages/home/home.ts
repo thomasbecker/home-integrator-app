@@ -11,7 +11,6 @@ import {DataProvider} from "../../app/dataProvider";
 export class HomePage {
 
   constructor(public navCtrl: NavController, private dataProvider: DataProvider) {
-
   }
 
   ionViewDidLoad() {

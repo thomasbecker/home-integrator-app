@@ -73,7 +73,7 @@ export class TrendPage {
       var data = JSON.parse(event.data);
       var date = data.timestamp * 1000;
       var powerPv = data.powerFlowSite.powerPv == null ? 0 : data.powerFlowSite.powerPv;
-      var powerGrid = data.powerFlowSite.powerGrid == null ? 0 : data.powerFlowSite.powerGrid.toFixed(2);
+      var powerGrid = data.powerFlowSite.powerGrid == null ? 0 : data.powerFlowSite.powerGrid;
       var powerLoad = data.powerFlowSite.powerLoad == null ? 0 : data.powerFlowSite.powerLoad;
       // var selfConsumption = data.powerFlowSite.selfConsumption == null ? 0 : data.powerFlowSite.selfConsumption;
       // var autonomy = data.powerFlowSite.autonomy == null ? 0 : data.powerFlowSite.autonomy;
